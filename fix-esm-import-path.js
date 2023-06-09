@@ -210,10 +210,8 @@ function scanFile({ srcFile }) {
   log('[scanFile]', { srcFile })
   let code = fs.readFileSync(srcFile).toString()
   for (let regex of [
-    /.*import .* from '(.*)'.*/g,
-    /.*import .* from "(.*)".*/g,
-    /.*export .* from '(.*)'.*/g,
-    /.*export .* from "(.*)".*/g,
+    /^(?!\/\/|\/\*|\*)[ ]*import .* from ['"](.*)['"].*/gm,
+    /^(?!\/\/|\/\*|\*)[ ]*export .* from ['"](.*)['"].*/gm,
   ]) {
     for (let match of code.matchAll(regex)) {
       let [importCode, name] = match
